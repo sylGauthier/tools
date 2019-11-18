@@ -1,0 +1,13 @@
+#!/bin/bash
+FILE="$(find -name "$1" | choice)"
+
+if [ "$?" == "2" ] ; then
+    printf "User cancelled\n"
+    exit 0
+fi
+
+if [ -f "$FILE" ] ; then
+    $EDITOR "$FILE"
+else
+    printf "No such file: $FILE\n"
+fi

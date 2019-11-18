@@ -1,0 +1,10 @@
+#!/bin/bash
+
+if [ ! -f "$1" ] ; then
+    return 1
+fi
+
+TMP="$(mktemp)"
+astyle < "$1" > "$TMP"
+diff --color -p "$1" "$TMP"
+rm "$TMP"

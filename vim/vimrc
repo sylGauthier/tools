@@ -1,0 +1,159 @@
+
+" Basic settings {{{
+execute pathogen#infect()
+set encoding=utf-8
+set wrap
+set expandtab
+set tabstop=4
+set softtabstop=-1
+set shiftwidth=4
+set mouse=a
+set background=dark
+set hlsearch incsearch
+set tags=./tags;
+let g:zenburn_high_Contrast=1
+let g:zenburn_old_Visual=1
+colors zenburn
+syntax on
+filetype plugin indent on
+" }}}
+
+" Plugin settings {{{
+let &errorformat="%f:%l:%c: %t%*[^:]:%m,%f:%l: %t%*[^:]:%m," . &errorformat
+" }}}
+
+"Normal mode mapping {{{
+let mapleader=","
+let maplocalleader="!"
+nnoremap  :tabe 
+nnoremap [1;5D gT
+nnoremap [1;5C gt
+nnoremap [1;5A :tabm -1 <CR>
+nnoremap [1;5B :tabm +1 <CR>
+nnoremap <silent> [1;3D :wincmd h<CR>
+nnoremap <silent> [1;3C :wincmd l<CR>
+nnoremap <silent> [1;3A :wincmd k<CR>
+nnoremap <silent> [1;3B :wincmd j<CR>
+nnoremap <C-n> :mksession! edit.vim<CR>
+nnoremap ; :%s///g<Left><Left><Left>
+nnoremap <leader>" viw<esc>a"<esc>hbi"<esc>lel
+nnoremap <leader>ev :tabe $MYVIMRC<CR>
+nnoremap <leader>sv :source $MYVIMRC<CR>
+nnoremap <leader>of :call OpenThisFile()<CR>
+nnoremap <leader>bd :NERDTree<CR>
+nnoremap <leader>p :bp<CR>
+nnoremap <leader>n :bn<CR>
+nnoremap <leader>g :call chope#grepthis()<CR>
+nnoremap <space> za
+nnoremap <S-space> zR
+nnoremap <CR> o<Esc>
+nnoremap Q A
+nnoremap cc ciw
+"HACK: mapped the following code to <S-CR> in my .Xresources
+"because it's impossible to map <S-CR> in vim otherwise...
+nnoremap [1;2E O<Esc>
+nnoremap <C-h> :noh<CR>
+
+"}}}
+
+"Insert mode mapping {{{
+inoremap jk <Esc>
+inoremap <C-Right> <Esc>gta
+inoremap <C-Left> <Esc>gTa
+inoremap <M-Right> <Esc>:wincmd l<CR>
+inoremap <M-Left> <Esc>:wincmd h<CR>
+inoremap <M-Down> <Esc>:wincmd j<CR>
+inoremap <M-Up> <Esc>:wincmd k<CR>
+
+"HACK: mapped the following code to <S-CR> in my .Xresources
+"because it's impossible to map <S-CR> in vim otherwise...
+inoremap [1;2E <End><CR>
+"}}}
+
+"Generic auto-commands {{{
+augroup generic_rules
+    autocmd!
+    autocmd BufRead,BufNewFile *.dedcache,*.tex set textwidth=80 | set colorcolumn=80
+    autocmd BufRead,BufNewFile *.h set filetype=c
+    autocmd BufRead,BufNewFile *.g4 set filetype=antlr3
+    autocmd BufRead,BufNewFile *.deca set filetype=java
+    autocmd BufRead,BufNewFile *.glsl set filetype=c
+augroup END
+"}}}
+
+"Vim filetype auto-commands {{{
+augroup filetype_vim
+    autocmd!
+    autocmd FileType vim setlocal foldmethod=marker
+    autocmd FileType vim nnoremap <buffer> <S-k> :call HelpHere()<CR>
+augroup END
+"}}}
+
+"C filetype auto-commands {{{
+augroup filetype_c
+    autocmd!
+    autocmd FileType c,cpp :nnoremap <buffer> <localleader>i o#include ".h"<Esc>2hi
+    autocmd FileType c,cpp :nnoremap <buffer> <localleader>I o#include <.h><Esc>2hi
+    autocmd FileType c,cpp :nnoremap <buffer> <localleader>om :call OpenCModule("")<Left><Left>
+    autocmd FileType c,cpp :nnoremap <buffer> <localleader>m :call OpenThisCModule()<CR>
+    autocmd FileType c,cpp :nnoremap <buffer> <localleader>( <C-]>
+    autocmd FileType c,cpp :nnoremap <buffer> <localleader>) <C-t>
+    autocmd FileType c,cpp :nnoremap <buffer> <localleader>p <C-w>}
+	autocmd FileType c,cpp :inoreabbrev <buffer> { {<CR>}<Up><End>
+augroup END
+"}}}
+
+"java filetype auto-commands {{{
+augroup filetype_java
+    autocmd!
+    autocmd FileType java :inoreabbrev <buffer> { {<CR>}<Up><End>
+    autocmd FileType java :inoremap <buffer> <C-k> <End><CR>{<CR>}<Up><End><CR>
+augroup END
+"}}}
+
+"Custom functions {{{
+function! InitCCModule(name)
+    let ccommand = "i#include \"" . a:name . ".h\"\<Esc>"
+    execute 'normal! ' . ccommand
+endfunction
+
+function! InitHCModule(name)
+    let hcommand = "i#ifndef " . a:name . "_h\<Esc>F v$Uyyplciwdefine\<Esc>o\<CR>\<CR>\<CR>#endif\<Esc>2k"
+    execute 'normal! ' . hcommand
+endfunction
+
+function! OpenCModule(name)
+    let cfile = a:name . ".c"
+    let hfile = a:name . ".h"
+    execute 'tabe ' . cfile
+
+    if !filereadable(cfile)
+        call InitCCModule(a:name)
+    endif
+
+    execute 'vsplit ' . hfile
+    vertical resize 90
+
+    if !filereadable(hfile)
+        call InitHCModule(a:name)
+    endif
+endfunction
+
+function! OpenThisCModule()
+    let prefix = join(split(@%, "/")[0:-2], "/")
+    if prefix != ""
+        let prefix = prefix . "/"
+    endif
+    let name = prefix . expand("<cword>")
+    call OpenCModule(name)
+endfunction
+
+function! OpenThisFile()
+    let name = expand("<cword>")
+    execute 'tabe ' . name
+endfunction
+
+function! HelpHere()
+    execute "normal! :help " . expand("<cword>") . "\<CR>"
+endfunction
+"}}}
