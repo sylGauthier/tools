@@ -1,6 +1,5 @@
 
 " Basic settings {{{
-execute pathogen#infect()
 set encoding=utf-8
 set wrap
 set expandtab
