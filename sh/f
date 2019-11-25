@@ -1,5 +1,5 @@
 #!/bin/bash
-FILE="$(find -name "$1" | choice)"
+FILE="$(find -name "$1" -type f | choice)"
 
 if [ "$?" == "2" ] ; then
     printf "User cancelled\n"
