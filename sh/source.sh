@@ -28,7 +28,7 @@ function timer ()
 
 ccd() {
     while true ; do
-        SEL="$(find "." -maxdepth 1 | sed '1 a ..' | choice -s "")"
+        SEL="$(find "." -maxdepth 1 | sort | sed '1 a ..' | choice -s "")"
         test "$?" == 2 && break
         test "$SEL" = "." && break
         if [ -d "$SEL" ] ; then
