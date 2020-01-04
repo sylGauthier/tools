@@ -7,7 +7,9 @@ set -o vi
 HISTSIZE=-1
 HISTFILESIZE=-1
 
-bind '"\C-r": " history|sed \"s/^ *[0-9]* *//\"|choice -s \"\" -r \"%k\"|perl -e '\''require \"sys/ioctl.ph\";open(my $f,\"<\",\"/dev/tty\");while(<>){ioctl($f,&TIOCSTI,$_)for split \"\"}'\'';printf "\\\\x1B[2k\\\\r\">/dev/tty\C-j"'
+bind -x '"\C-r": history|tac|sed "s/^ *[0-9]* *//"|(printf "\\x1b\\x5b\\x34\\x7e\\x15";choice -s "" -r "%k" -S "$READLINE_LINE")|perl -e "open(my \$f,\"<\",\"/dev/tty\");while(<>){ioctl(\$f,0x5412,\$_)for split \"\"}"'
+
+export OPENER=rifle
 
 function mcd ()
 {
@@ -32,7 +34,7 @@ ccd() {
         if [ -d "$SEL" ] ; then
             cd "$SEL"
         elif [ -f "$SEL" ] ; then
-            xdg-open "$SEL"
+            $OPENER "$SEL"
         fi
     done
 }
