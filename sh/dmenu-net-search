@@ -1,0 +1,5 @@
+#/bin/bash
+
+. "$(dirname "$0")/net-completion.sh"
+
+net search $(net_get_providers | dmenu)
