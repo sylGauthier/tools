@@ -19,6 +19,7 @@ filetype plugin indent on
 
 " Plugin settings {{{
 let &errorformat="%f:%l:%c: %t%*[^:]:%m,%f:%l: %t%*[^:]:%m," . &errorformat
+set runtimepath^=~/.vim/bundle/ctrlp.vim
 " }}}
 
 "Normal mode mapping {{{
@@ -39,10 +40,11 @@ nnoremap <leader>" viw<esc>a"<esc>hbi"<esc>lel
 nnoremap <leader>ev :tabe $MYVIMRC<CR>
 nnoremap <leader>sv :source $MYVIMRC<CR>
 nnoremap <leader>of :call OpenThisFile()<CR>
-nnoremap <leader>bd :NERDTree<CR>
 nnoremap <leader>p :bp<CR>
 nnoremap <leader>n :bn<CR>
 nnoremap <leader>g :call chope#grepthis()<CR>
+nnoremap <leader>f :CtrlP<CR>
+nnoremap <leader>b :CtrlPBuffer<CR>
 nnoremap <space> za
 nnoremap <S-space> zR
 nnoremap <CR> o<Esc>
@@ -77,6 +79,7 @@ augroup generic_rules
     autocmd BufRead,BufNewFile *.g4 set filetype=antlr3
     autocmd BufRead,BufNewFile *.deca set filetype=java
     autocmd BufRead,BufNewFile *.glsl set filetype=c
+    autocmd BufRead,BufNewFile *.ogex set filetype=ogex
 augroup END
 "}}}
 
