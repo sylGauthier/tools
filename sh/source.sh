@@ -38,3 +38,8 @@ ccd() {
         fi
     done
 }
+
+tard() {
+    test -d "$1" || exit 1
+    tar -zcvf "$1.tar.gz" "$1"
+}
