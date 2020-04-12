@@ -43,3 +43,8 @@ tard() {
     test -d "$1" || exit 1
     tar -zcvf "$1.tar.gz" "$1"
 }
+
+sgit() {
+    COMMIT="$(git log --pretty=format:"%h %ai %an  %x09%s" --date=human | choice -d $'\e[34m%k\e[39m: %v')"
+    if [ -n "$COMMIT" ] ; then git show "$COMMIT" ; fi
+}
