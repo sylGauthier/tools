@@ -1,0 +1,10 @@
+#!/bin/bash
+
+URL="$(cat ~/.bookmarks | dmenu)"
+
+EXT="$(echo "$URL" | rev | cut -d. -f1 | rev)"
+
+if [ "$EXT" = "onion" ] ; then
+    PROXY="socks://127.0.0.1:9050"
+fi
+http_proxy="$PROXY" surf "$URL"
