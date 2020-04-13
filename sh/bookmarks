@@ -1,10 +1,19 @@
 #!/bin/bash
 
-URL="$(cat ~/.bookmarks | dmenu)"
+SEL="$(cat ~/.bookmarks | dmenu)"
 
-EXT="$(echo "$URL" | rev | cut -d. -f1 | rev)"
+OPT="$(printf "$SEL" | grep -o '^[A-Z] ' | cut -d ' ' -f1)"
+URL="$(printf "$SEL" | grep -o '[^ ]*$')"
 
-if [ "$EXT" = "onion" ] ; then
-    PROXY="socks://127.0.0.1:9050"
-fi
+case "$OPT" in
+    T)
+        PROXY="socks://127.0.0.1:9050"
+        ;;
+    *)
+        ;;
+esac
+
 http_proxy="$PROXY" surf "$URL"
+shred ~/.surf/cookies.txt
+rm ~/.surf/cookies.txt
+rm -r ~/.surf/cache
