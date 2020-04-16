@@ -13,6 +13,8 @@ case "$OPT" in
         ;;
 esac
 
+test -z "$URL" && exit
+
 http_proxy="$PROXY" surf "$URL"
 shred ~/.surf/cookies.txt
 rm ~/.surf/cookies.txt
