@@ -54,3 +54,7 @@ sgit() {
         fi
     done
 }
+
+ltree() {
+    tree -C $@ | less -R
+}
