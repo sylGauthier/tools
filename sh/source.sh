@@ -9,15 +9,11 @@ HISTFILESIZE=-1
 
 bind -x '"\C-r": history|tac|sed "s/^ *[0-9]* *//"|(printf "\\x1b\\x5b\\x34\\x7e\\x15";choice -s "" -r "%k" -S "$READLINE_LINE")|perl -e "open(my \$f,\"<\",\"/dev/tty\");while(<>){ioctl(\$f,0x5412,\$_)for split \"\"}"'
 
-export OPENER=rifle
-
-function mcd ()
-{
+mcd () {
 	mkdir -p "$1" && cd "$1"
 }
 
-function timer ()
-{
+timer () {
     strt=$(date +%s)
     while true ; do
         sec=$(date +%s)
