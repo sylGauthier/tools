@@ -45,6 +45,12 @@ tard() {
 }
 
 sgit() {
-    COMMIT="$(git log --pretty=format:"%h %ai %an  %x09%s" --date=human | choice -d $'\e[34m%k\e[39m: %v')"
-    if [ -n "$COMMIT" ] ; then git show "$COMMIT" ; fi
+    while true ; do
+        COMMIT="$(git log --pretty=format:"%h %ai %an  %x09%s" --date=human | choice -d $'\e[34m%k\e[39m: %v')"
+        if [ -n "$COMMIT" ] ; then
+            git show "$COMMIT"
+        else
+            return 0
+        fi
+    done
 }
