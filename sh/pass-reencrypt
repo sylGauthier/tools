@@ -1,0 +1,19 @@
+#!/bin/bash
+
+[ -n "$1" ] || exit 1
+
+passlist="$(find ~/.password-store -name *.gpg)"
+
+for i in $passlist ; do
+    printf "Processing $i\n"
+    mv "$i" "$i.old"
+    gpg --decrypt "$i.old" 2> /dev/null | gpg --encrypt --recipient "$1" > "$i" || exit 1
+    rm "$i.old"
+done
+
+printf "$1\n" > ~/.password-store/.gpg-id
+
+pass git add '*.gpg'
+pass git commit -m "reencrypted passwords with new identity: $1"
+pass git add '.gpg-id'
+pass git commit -m "updated gpg-ip"
