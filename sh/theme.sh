@@ -10,34 +10,7 @@
 #6: Cyan
 #7: White
 
-reset () {
-    printf '\x1b[0m'
-}
-
-set_bold () {
-    printf '\x1b[1m'
-}
-reset_bold () {
-    printf '\x1b[22m'
-}
-
-set_bg () {
-    printf '\x1b['$((40+$1))"$2"'m'
-}
-reset_bg () {
-    printf '\x1b[49m'
-}
-
-set_fg () {
-    printf '\x1b['$((30+$1))"$2"'m'
-}
-reset_fg () {
-    printf '\x1b[39m'
-}
-
-reset_colors () {
-    reset_fg; reset_bg
-}
+. color.sh
 
 print_sep () {
     printf '\ue0b0'
@@ -75,7 +48,7 @@ prompt_has_bg_jobs () {
 }
 
 prompt_status_icons () {
-    next_segment 8 ';2;0;0;0'; set_bold
+    next_segment 0; set_bold
     prompt_cmd_result;
     #prompt_is_root;
     #prompt_has_bg_jobs;
@@ -117,12 +90,12 @@ prompt_git () {
 
 prompt_end () {
     next_segment 9
-    reset; printf '\\n\\$ '
+    reset_formats; printf '\\n\\$ '
 }
 
 get_ps1 () {
     local RET=$?
-    reset
+    reset_formats
     prompt_status_icons
     prompt_context
     prompt_curdir
