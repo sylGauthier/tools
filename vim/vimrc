@@ -85,6 +85,7 @@ augroup generic_rules
     autocmd BufRead,BufNewFile *.deca set filetype=java
     autocmd BufRead,BufNewFile *.glsl set filetype=c
     autocmd BufRead,BufNewFile *.ogex set filetype=ogex
+    autocmd BufRead,BufNewFile *.gltf set filetype=json
 augroup END
 "}}}
 
