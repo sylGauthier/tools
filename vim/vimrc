@@ -64,6 +64,7 @@ nnoremap <C-h> :noh<CR>
 
 "Insert mode mapping {{{
 inoremap jk <Esc>
+inoremap jj <Esc>
 inoremap <C-Right> <Esc>gta
 inoremap <C-Left> <Esc>gTa
 inoremap <M-Right> <Esc>:wincmd l<CR>
