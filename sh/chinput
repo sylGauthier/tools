@@ -1,0 +1,5 @@
+#!/bin/sh
+
+DICT="$HOME/.local/share/dict/mandarin"
+
+dmenu -l 30 < "$DICT" | cut -d' ' -f1 | tr -d $'\n' | xclip -selection c

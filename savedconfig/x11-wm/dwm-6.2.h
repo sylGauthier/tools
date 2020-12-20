@@ -62,6 +62,7 @@ static const char *bookmarkscmd[] = { "bookmarks", NULL };
 static const char *rangercmd[] = { "st", "-e", "ranger", NULL };
 static const char *lockcmd[] = { "lock", NULL };
 static const char *netsearchcmd[] = { "st", "-e", "dmenu-search.sh", NULL };
+static const char *chinputcmd[] = { "chinput", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -111,6 +112,8 @@ static Key keys[] = {
 	{ MODKEY|ControlMask,		    XK_Return,  spawn,	    {.v = lockcmd} },
 	{ MODKEY,			            XK_e,	    spawn,	    {.v = rangercmd} },
 	{ MODKEY,			            XK_s,	    spawn,	    {.v = netsearchcmd} },
+	{ MODKEY,			            XK_u,	    spawn,	    {.v = bookmarkscmd} },
+	{ MODKEY,			            XK_c,	    spawn,	    {.v = chinputcmd} },
 };
 
 /* button definitions */
