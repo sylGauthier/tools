@@ -2,4 +2,11 @@
 
 DICT="$HOME/.local/share/dict/mandarin"
 
-dmenu -l 30 < "$DICT" | cut -d' ' -f1 | tr -d $'\n' | xclip -selection c
+char=""
+sent=""
+while true ; do
+    char="$(dmenu -l 30 < "$DICT" | cut -d' ' -f1 | tr -d $'\n')"
+    test -n "$char" || exit 0
+    sent="$sent$char"
+    echo "$sent" | xclip -r -selection c
+done
