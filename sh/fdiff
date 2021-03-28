@@ -1,0 +1,6 @@
+#!/bin/bash
+
+LIST1="$(find "$1" -type f | xargs -n1 basename | sort)"
+LIST2="$(find "$2" -type f | xargs -n1 basename | sort)"
+
+diff <(printf "$LIST1\n") <(printf "$LIST2\n") | sed '/^[^<>]/d'
