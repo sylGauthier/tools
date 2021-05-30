@@ -79,7 +79,6 @@ inoremap [1;2E <End><CR>
 "Generic auto-commands {{{
 augroup generic_rules
     autocmd!
-    autocmd BufRead,BufNewFile *.dedcache,*.tex set textwidth=80 | set colorcolumn=80
     autocmd BufRead,BufNewFile *.h set filetype=c
     autocmd BufRead,BufNewFile *.g4 set filetype=antlr3
     autocmd BufRead,BufNewFile *.deca set filetype=java
