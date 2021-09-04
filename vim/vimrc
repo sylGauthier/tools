@@ -10,9 +10,7 @@ set mouse=a
 set background=dark
 set hlsearch incsearch
 set tags=./tags;
-let g:zenburn_high_Contrast=1
-let g:zenburn_old_Visual=1
-colors zenburn
+colors desert
 syntax on
 filetype plugin indent on
 " }}}
@@ -24,7 +22,8 @@ set runtimepath^=~/.vim/bundle/ctrlp.vim
 highlight GitGutterAdd    ctermfg=2
 highlight GitGutterChange ctermfg=3
 highlight GitGutterDelete ctermfg=1
-let g:gitgutter_set_sign_backgrounds = 1
+highlight SignColumn      ctermbg=0
+" let g:gitgutter_set_sign_backgrounds = 1
 " }}}
 
 "Normal mode mapping {{{
