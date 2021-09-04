@@ -13,6 +13,22 @@ mcd () {
 	mkdir -p "$1" && cd "$1"
 }
 
+bury() {
+    if [ "$1" = "-e" ] ; then
+        edit=1
+        shift
+    else
+        edit=""
+    fi
+    if [ -n "$1" ] ; then
+        mkdir -p "$(dirname "$1")" || return 1
+        touch "$1"
+        if [ -n "$edit" ] ; then
+            $EDITOR "$1"
+        fi
+    fi
+}
+
 timer () {
     strt=$(date +%s)
     while true ; do
