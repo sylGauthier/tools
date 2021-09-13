@@ -1,0 +1,12 @@
+#!/bin/bash
+
+BROWSER=lynx
+
+feed="$(find "$HOME/.sfeed/feeds/$1" -type f)"
+test -n "$feed" || exit 1
+
+while true ; do
+    url="$(sfeed_plain $feed | sed 's/\(.*\) \([^ ]*\)$/\2 \1/g' | choice)"
+    test -n "$url" || exit 0
+    $BROWSER "$url"
+done
