@@ -70,3 +70,11 @@ sgit() {
 ltree() {
     tree -C $@ | less -R
 }
+
+dump() {
+    if [ -z "$1" -o -z "$2" ] ; then
+        printf "Usage: dump <url> <filetype>\n"
+        return 1
+    fi
+    curl "$1" | grep -o 'href="[^"]*.'"$2"'"' | sort | uniq | sed -e 's/^href="\([a-z]*:\)\{0,1\}\(\/\)\{0,2\}\(.*\)"$/https:\/\/\3/g' | wget -i -
+}
