@@ -78,3 +78,22 @@ dump() {
     fi
     curl "$1" | grep -o 'href="[^"]*.'"$2"'"' | sort | uniq | sed -e 's/^href="\([a-z]*:\)\{0,1\}\(\/\)\{0,2\}\(.*\)"$/https:\/\/\3/g' | wget -i -
 }
+
+t() {
+    cur="$(pwd)"
+
+    while [ ! -f "$cur/tags" ] ; do
+        if [ -z "$cur" ] ; then
+            printf "no tag file found in any parent directory\n"
+            return 1
+        fi
+        cur="${cur%/*}"
+    done
+    sel="$(sed -n 's:\(^[^\t]*\)\t\([^\t]*\)\t\(/.*/;"\)\t\([^\t]*\).*:\2 \3\t\1 \4 [\2]:p' < "$cur/tags" | choice -s '	' -S "$1")"
+    if [ -z "$sel" ] ; then
+        printf "User cancelled\n"
+        return 1
+    fi
+    read -r file pat <<< "$sel"
+    $EDITOR "$cur"/$file "+$pat"
+}
